@@ -16,7 +16,7 @@ test_script:
 artifacts:
   - path: 'src\**\*.nupkg'
 deploy:
-  - provider: MyGet
+  - provider: NuGet
     on:
       branch: master
     server: https://www.myget.org/F/davidhayden-ci/api/v2/package
