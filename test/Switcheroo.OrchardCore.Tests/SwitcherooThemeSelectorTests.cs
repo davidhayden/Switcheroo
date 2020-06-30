@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Primitives;
 using Moq;
 using OrchardCore.DisplayManagement.Theming;
@@ -24,14 +23,14 @@ namespace Switcheroo.OrchardCore.Tests {
 
             var queryCollection = new QueryCollection(new Dictionary<string, StringValues>
                 {{SwitcherooThemeSelector.QueryStringKey, new StringValues(selectedThemeName)}});
-            var requestCookieCollection = new RequestCookieCollection();
+            var requestCookies = new RequestCookies();
             var responseCookies = new ResponseCookies();
 
             var mockContext = new Mock<HttpContext>();
             mockContext.Setup(p => p.User.IsInRole(userRole))
                 .Returns((string p) => p.Equals(SwitcherooThemeSelector.RequiredRole));
             mockContext.SetupGet(p => p.Request.Query).Returns(queryCollection);
-            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookieCollection);
+            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookies);
             mockContext.SetupGet(p => p.Response.Cookies).Returns(responseCookies);
 
             var mockContextAccessor = new Mock<IHttpContextAccessor>();
@@ -74,13 +73,13 @@ namespace Switcheroo.OrchardCore.Tests {
 
             var queryCollection = new QueryCollection(new Dictionary<string, StringValues>
                 {{SwitcherooThemeSelector.QueryStringKey, new StringValues(selectedThemeName)}});
-            var requestCookieCollection = new RequestCookieCollection();
+            var requestCookies = new RequestCookies();
             var responseCookies = new ResponseCookies();
 
             var mockContext = new Mock<HttpContext>();
             mockContext.Setup(p => p.User.IsInRole(SwitcherooThemeSelector.RequiredRole)).Returns(true);
             mockContext.SetupGet(p => p.Request.Query).Returns(queryCollection);
-            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookieCollection);
+            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookies);
             mockContext.SetupGet(p => p.Response.Cookies).Returns(responseCookies);
 
             var mockContextAccessor = new Mock<IHttpContextAccessor>();
@@ -113,13 +112,13 @@ namespace Switcheroo.OrchardCore.Tests {
         public async void SelectorResultNullWhenNoQueryParameterOrCookie() {
             // Arrange
             var queryCollection = new QueryCollection(); // No Query Parameter
-            var requestCookieCollection = new RequestCookieCollection(); // No Cookie
+            var requestCookies = new RequestCookies(); // No Cookie
             var responseCookies = new ResponseCookies();
 
             var mockContext = new Mock<HttpContext>();
             mockContext.Setup(p => p.User.IsInRole(SwitcherooThemeSelector.RequiredRole)).Returns(true);
             mockContext.SetupGet(p => p.Request.Query).Returns(queryCollection);
-            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookieCollection);
+            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookies);
             mockContext.SetupGet(p => p.Response.Cookies).Returns(responseCookies);
 
             var mockContextAccessor = new Mock<IHttpContextAccessor>();
@@ -146,13 +145,13 @@ namespace Switcheroo.OrchardCore.Tests {
             // Arrange
             var queryCollection = new QueryCollection(new Dictionary<string, StringValues>
                 {{SwitcherooThemeSelector.QueryStringKey, new StringValues(selectedThemeName)}});
-            var requestCookieCollection = new RequestCookieCollection();
+            var requestCookies = new RequestCookies();
             var responseCookies = new ResponseCookies();
 
             var mockContext = new Mock<HttpContext>();
             mockContext.Setup(p => p.User.IsInRole(SwitcherooThemeSelector.RequiredRole)).Returns(true);
             mockContext.SetupGet(p => p.Request.Query).Returns(queryCollection);
-            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookieCollection);
+            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookies);
             mockContext.SetupGet(p => p.Response.Cookies).Returns(responseCookies);
 
             var mockContextAccessor = new Mock<IHttpContextAccessor>();
@@ -182,14 +181,14 @@ namespace Switcheroo.OrchardCore.Tests {
         public async void SelectorSetsThemeNameFromCookie(string selectedThemeName) {
             // Arrange
             var queryCollection = new QueryCollection();
-            var requestCookieCollection = new RequestCookieCollection(new Dictionary<string, string>
+            var requestCookies = new RequestCookies(new Dictionary<string, string>
                 {{SwitcherooThemeSelector.CookieName, selectedThemeName}});
             var responseCookies = new ResponseCookies();
 
             var mockContext = new Mock<HttpContext>();
             mockContext.Setup(p => p.User.IsInRole(SwitcherooThemeSelector.RequiredRole)).Returns(true);
             mockContext.SetupGet(p => p.Request.Query).Returns(queryCollection);
-            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookieCollection);
+            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookies);
             mockContext.SetupGet(p => p.Response.Cookies).Returns(responseCookies);
 
             var mockContextAccessor = new Mock<IHttpContextAccessor>();
@@ -220,14 +219,14 @@ namespace Switcheroo.OrchardCore.Tests {
             // Arrange
             var queryCollection = new QueryCollection(new Dictionary<string, StringValues>
                 {{SwitcherooThemeSelector.QueryStringKey, new StringValues(selectedThemeName)}});
-            var requestCookieCollection = new RequestCookieCollection(new Dictionary<string, string>
+            var requestCookies = new RequestCookies(new Dictionary<string, string>
                 {{SwitcherooThemeSelector.CookieName, "AnyThemeName"}});
             var responseCookies = new ResponseCookies();
 
             var mockContext = new Mock<HttpContext>();
             mockContext.Setup(p => p.User.IsInRole(SwitcherooThemeSelector.RequiredRole)).Returns(true);
             mockContext.SetupGet(p => p.Request.Query).Returns(queryCollection);
-            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookieCollection);
+            mockContext.SetupGet(p => p.Request.Cookies).Returns(requestCookies);
             mockContext.SetupGet(p => p.Response.Cookies).Returns(responseCookies);
 
             var mockContextAccessor = new Mock<IHttpContextAccessor>();

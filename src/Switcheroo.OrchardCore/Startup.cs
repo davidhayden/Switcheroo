@@ -10,8 +10,5 @@ namespace Switcheroo.OrchardCore {
         public override void ConfigureServices(IServiceCollection services) {
             services.AddScoped<IThemeSelector, SwitcherooThemeSelector>();
         }
-
-        public override void Configure(IApplicationBuilder builder, IRouteBuilder routes,
-            IServiceProvider serviceProvider) { }
     }
 }
